@@ -3,7 +3,7 @@
    "version": "1.0.0",
    "author": "Daniel Faber <mail@daniel-faber.de>",
    "license": "MIT",
-   "description": "manage postgres containers for testing database code",
+   "description": "get and validate values from environment variables",
    "main": "build/EnvironmentParser.js",
    "types": "build/EnvironmentParser.d.ts",
    "repository": {
@@ -15,12 +15,17 @@
       "test": "jest --no-cache --coverage"
    },
    "dependencies": {
-      "@leptonite/parse-int-strict": "1.0.0"
+      "@leptonite/parse-int-strict": "^1.0.0"
    },
    "devDependencies": {
+      "@leptonite/eslint-config": "git+https://github.com/leptonite/eslint-config.git",
       "@types/jest": "28.1.1",
+      "@typescript-eslint/eslint-plugin": "5.28.0",
+      "@typescript-eslint/parser": "5.28.0",
+      "eslint": "8.17.0",
+      "eslint-plugin-only-warn": "1.0.3",
       "jest": "28.1.1",
-      "ts-jest": "28.0.4",
+      "ts-jest": "28.0.5",
       "typescript": "4.7.3"
    }
 }

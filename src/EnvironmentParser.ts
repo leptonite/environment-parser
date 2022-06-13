@@ -1,12 +1,9 @@
 import { parseIntStrict } from '@leptonite/parse-int-strict';
 
 
-function required<T>(name: string, value: T | undefined): T {
-   if (value === undefined) {
-      throw new Error(`environment variable ${name} is missing`);
-   }
-
-   return value;
+export interface GetIntegerOptions {
+   min?: number;
+   max?: number;
 }
 
 export class EnvironmentParser {
@@ -28,7 +25,7 @@ export class EnvironmentParser {
       return required(name, this.getOptionalString(name, pattern));
    }
 
-   public getOptionalInteger(name: string, { min, max }: { min?: number, max?: number; } = {}): number | undefined {
+   public getOptionalInteger(name: string, { min, max }: GetIntegerOptions = {}): number | undefined {
       const value = this.env[name];
       if (value === undefined) {
          return undefined;
@@ -50,8 +47,16 @@ export class EnvironmentParser {
       return intValue;
    }
 
-   public getInteger(name: string, { min, max }: { min?: number, max?: number; } = {}): number {
+   public getInteger(name: string, { min, max }: GetIntegerOptions = {}): number {
       return required(name, this.getOptionalInteger(name, { min, max }));
    }
 
+}
+
+function required<T>(name: string, value: T | undefined): T {
+   if (value === undefined) {
+      throw new Error(`environment variable ${name} is missing`);
+   }
+
+   return value;
 }

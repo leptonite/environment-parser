@@ -2,9 +2,9 @@ import { EnvironmentParser } from './EnvironmentParser';
 
 
 const testEnv: NodeJS.ProcessEnv = {
-   USER: 'testuser',
-   HOME: '/home/testuser',
-   PORT: '123',
+   'USER': 'testuser',
+   'HOME': '/home/testuser',
+   'PORT': '123',
 };
 
 describe('EnvironmentParser', () => {
@@ -25,16 +25,16 @@ describe('EnvironmentParser', () => {
 
    test('getString with pattern', () => {
       const envParser = new EnvironmentParser(testEnv);
-      expect(envParser.getString('USER', /^[a-z]+$/)).toBe('testuser');
-      expect(() => envParser.getString('HOME', /^[a-z]+$/)).toThrowError('environment variable HOME does not match pattern /^[a-z]+$/');
-      expect(() => envParser.getString('MISSING', /^[a-z]+$/)).toThrowError('environment variable MISSING is missing');
+      expect(envParser.getString('USER', /^[a-z]+$/u)).toBe('testuser');
+      expect(() => envParser.getString('HOME', /^[a-z]+$/u)).toThrowError('environment variable HOME does not match pattern /^[a-z]+$/');
+      expect(() => envParser.getString('MISSING', /^[a-z]+$/u)).toThrowError('environment variable MISSING is missing');
    });
 
    test('getOptionalString with pattern', () => {
       const envParser = new EnvironmentParser(testEnv);
-      expect(envParser.getOptionalString('USER', /^[a-z]+$/)).toBe('testuser');
-      expect(() => envParser.getOptionalString('HOME', /^[a-z]+$/)).toThrowError('environment variable HOME does not match pattern /^[a-z]+$/');
-      expect(envParser.getOptionalString('MISSING', /^[a-z]+$/)).toBeUndefined();
+      expect(envParser.getOptionalString('USER', /^[a-z]+$/u)).toBe('testuser');
+      expect(() => envParser.getOptionalString('HOME', /^[a-z]+$/u)).toThrowError('environment variable HOME does not match pattern /^[a-z]+$/');
+      expect(envParser.getOptionalString('MISSING', /^[a-z]+$/u)).toBeUndefined();
    });
 
    test('getInteger', () => {
