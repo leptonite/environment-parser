@@ -67,6 +67,20 @@ describe('EnvironmentParser', () => {
       expect(envParser.getOptionalInteger('MISSING')).toBeUndefined();
    });
 
+   test('getOneOf', () => {
+      const envParser = new EnvironmentParser(testEnv);
+      expect(envParser.getOneOf('USER', ['testuser'])).toBe('testuser');
+      expect(() => envParser.getOneOf('USER', ['sarah', 'kyle'])).toThrowError('environment variable USER must be one of ["sarah","kyle"]');
+      expect(() => envParser.getOneOf('MISSING', ['testuser'])).toThrowError('environment variable MISSING is missing');
+   });
+
+   test('getOptionalOneOf', () => {
+      const envParser = new EnvironmentParser(testEnv);
+      expect(envParser.getOptionalOneOf('USER', ['testuser'])).toBe('testuser');
+      expect(() => envParser.getOptionalOneOf('USER', ['sarah', 'kyle'])).toThrowError('environment variable USER must be one of ["sarah","kyle"]');
+      expect(envParser.getOptionalOneOf('MISSING', ['testuser'])).toBeUndefined();
+   });
+
    test('use process.env as default environment', () => {
       const envParser = new EnvironmentParser();
       for (const [key, value] of Object.entries(process.env)) {

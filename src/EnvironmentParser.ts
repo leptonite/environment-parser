@@ -15,9 +15,14 @@ export class EnvironmentParser {
 
    public getOptionalString(name: string, pattern?: RegExp): string | undefined {
       const value = this.env[name];
-      if (value !== undefined && pattern && !pattern.test(value)) {
+      if (value === undefined) {
+         return undefined;
+      }
+
+      if (pattern && !pattern.test(value)) {
          throw new Error(`environment variable ${name} does not match pattern ${pattern}`);
       }
+
       return value;
    }
 
@@ -49,6 +54,23 @@ export class EnvironmentParser {
 
    public getInteger(name: string, { min, max }: GetIntegerOptions = {}): number {
       return required(name, this.getOptionalInteger(name, { min, max }));
+   }
+
+   public getOptionalOneOf<T extends string>(name: string, values: Array<T>): T | undefined {
+      const value = this.env[name];
+      if (value === undefined) {
+         return undefined;
+      }
+
+      if (!(values as Array<string>).includes(value)) {
+         throw new Error(`environment variable ${name} must be one of ${JSON.stringify(values)}`);
+      }
+
+      return value as T;
+   }
+
+   public getOneOf<T extends string>(name: string, values: Array<T>): T {
+      return required(name, this.getOptionalOneOf(name, values));
    }
 
 }

@@ -48,6 +48,16 @@ const optionalInteger = envParser.getOptionalInteger('VAR');
 // returns undefined if VAR is not set
 // throws Error if VAR does not match the given pattern
 const validatedOptionalInteger = envParser.getOptionalInteger('VAR', { min: 1, max: 999 });
+
+
+// get mandatory string value and validate it against the given options
+// throws Error if VAR is not set or does not match one of the given options
+const mandatoryOption = envParser.getOneOf('VAR', ['option1', 'option2']);
+
+// get optional string value and validate it against the given options
+// returns undefined if VAR is not set
+// throws Error if VAR does not match one of the given options
+const optionalOption = envParser.getOptionalOneOf('VAR', ['option1', 'option2']);
 ```
 
-The `getOptionalString()` and `getOptionalInteger()` methods don’t support default values. Use `envParser.getOptionalString('VAR') ?? 'default'` instead.
+The `getOptionalString()`, `getOptionalInteger()` and `getOptionalOneOf()` methods don’t support default values. Use `envParser.getOptionalString('VAR') ?? 'default'` instead.
